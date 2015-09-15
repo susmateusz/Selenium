@@ -1,6 +1,7 @@
 package starterkit.tests;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import starterkit.pages.AbstractSelenium;
 import starterkit.pages.impl.HomePage;
@@ -23,6 +24,7 @@ public class HomePageTest extends AbstractSelenium{
     }
 
     @Test
+    @Ignore
     public void testIfHomePageOpensCorrectly() {
         // then
         assertFalse(homePage.hasError());
