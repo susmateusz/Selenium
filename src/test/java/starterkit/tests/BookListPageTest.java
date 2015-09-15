@@ -15,7 +15,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by MATSUS on 15.09.2015.
  */
-@Ignore
 public class BookListPageTest extends AbstractSelenium {
 
     private BookListPage bookListPage;
@@ -47,7 +46,7 @@ public class BookListPageTest extends AbstractSelenium {
         int booksAfterDeletionCount = bookListPage.countBooks();
         // then
         assertEquals(allBooksCount - 1, booksAfterDeletionCount);
-        assertTrue(bookListPage.isFlashDisplayed());
+        assertTrue(bookListPage.isFlashDisplayed("Book was removed!"));
     }
 
     @Test
@@ -64,7 +63,6 @@ public class BookListPageTest extends AbstractSelenium {
         // then
         assertTrue(allBooksCount > 0);
         assertEquals(filteredBooksCount, allBooksCount);
-
     }
 
     @Test
@@ -75,8 +73,6 @@ public class BookListPageTest extends AbstractSelenium {
         int filteredBooksCount = bookListPage.countBooks();
         // then
         assertEquals(1, filteredBooksCount);
-        // after
-
     }
 
     @Test
@@ -90,7 +86,12 @@ public class BookListPageTest extends AbstractSelenium {
         int allBooksCount = bookListPage.getRows().size();
         // then
         assertNotNull(bookListPage.getRows().get(allBooksCount - 1).findElement(By.xpath("//td[text()='" + newTitle + "']")));
-        assertTrue(bookListPage.isFlashDisplayed());
+        assertTrue(bookListPage.isFlashDisplayed("Book \""+newTitle+"\" was edited!"));
+    }
+
+    @Test
+    public  void testAddBook() {
+        assertTrue(bookListPage.isFlashDisplayed("Book \""+exampleTitle+"\" was added!"));
     }
 
     private void addExampleBook(String title) {
