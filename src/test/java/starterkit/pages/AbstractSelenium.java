@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * Created by MATSUS on 15.09.2015.
  */
 @RunWith(SeleniumScreenshotJUnit4Runner.class)
-public class AbstractSelenium {
+public abstract class AbstractSelenium {
 
     private WebDriver driver;
 
