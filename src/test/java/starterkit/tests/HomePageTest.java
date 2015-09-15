@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by MATSUS on 15.09.2015.
  */
+@Ignore
 public class HomePageTest extends AbstractSelenium{
 
     private HomePage homePage;
@@ -24,7 +25,6 @@ public class HomePageTest extends AbstractSelenium{
     }
 
     @Test
-    @Ignore
     public void testIfHomePageOpensCorrectly() {
         // then
         assertFalse(homePage.hasError());

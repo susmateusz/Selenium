@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by MATSUS on 15.09.2015.
  */
+@Ignore
 public class BookListPageTest extends AbstractSelenium {
 
     private BookListPage bookListPage;
@@ -32,11 +33,7 @@ public class BookListPageTest extends AbstractSelenium {
     @Override
     @After
     public void tearDown() {
-        try {
-            bookListPage.clickDeleteButton(bookListPage.countBooks() - 1);
-        } catch (NullPointerException e) {
-            System.err.println("Hue hue hue");
-        }
+        removeExampleBook();
         super.tearDown();
     }
 
@@ -104,5 +101,13 @@ public class BookListPageTest extends AbstractSelenium {
                 .setLastName(lastName)
                 .clickAddAuthorButton()
                 .clickAddBookButton();
+    }
+
+    private void removeExampleBook() {
+        try {
+            bookListPage.clickDeleteButton(bookListPage.countBooks() - 1);
+        } catch (NullPointerException e) {
+            System.err.println("Hue hue hue");
+        }
     }
 }

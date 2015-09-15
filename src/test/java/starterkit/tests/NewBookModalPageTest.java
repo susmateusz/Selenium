@@ -1,7 +1,6 @@
 package starterkit.tests;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import starterkit.pages.AbstractSelenium;
 import starterkit.pages.impl.NewBookPage;
@@ -24,27 +23,57 @@ public class NewBookModalPageTest extends AbstractSelenium {
     }
 
     @Test
-    @Ignore
     public void testAddBookCorrectly() throws Exception {
-        // given
-        String title = "title";
-        String firstName = "firstName";
-        String lastName = "lastName";
         // when
-        newBookPage.setBookTitle(title)
-                .setFirstName(firstName)
-                .setLastName(lastName)
-                .clickAddAuthorButton();
+        newBookPage.setBookTitle("title")
+                .setFirstName("firstName")
+                .setLastName("lastName")
+                .clickAddAuthorButton()
+                .clickAddBookButton();
         // then
-        assertFalse(newBookPage.hasError());
+        assertFalse(newBookPage.isTitleWarningDisplayed());
+        assertFalse(newBookPage.isAuthorsWarningDisplayed());
     }
 
     @Test
-    @Ignore
+    public void testShouldCheckIfTitleIsRequired() throws Exception {
+        // given
+        newBookPage.setFirstName("firstName").setLastName("lastName").clickAddAuthorButton();
+        // when
+        newBookPage.clickAddBookButton();
+        // then
+        assertTrue(newBookPage.isTitleWarningDisplayed());
+        assertFalse(newBookPage.isAuthorsWarningDisplayed());
+    }
+
+    @Test
+    public void testShouldCheckIfFirstNameIsRequired() throws Exception {
+        // given
+        newBookPage.setBookTitle("title").setLastName("lastName").clickAddAuthorButton();
+        // when
+        newBookPage.clickAddBookButton();
+        // then
+        assertFalse(newBookPage.isTitleWarningDisplayed());
+        assertTrue(newBookPage.isAuthorsWarningDisplayed());
+    }
+
+    @Test
+    public void testShouldCheckIfLastNameIsRequired() throws Exception {
+        // given
+        newBookPage.setBookTitle("title").setFirstName("firstName").clickAddAuthorButton();
+        // when
+        newBookPage.clickAddBookButton();
+        // then
+        assertFalse(newBookPage.isTitleWarningDisplayed());
+        assertTrue(newBookPage.isAuthorsWarningDisplayed());
+    }
+
+    @Test
     public void testShouldCheckIfTitleAndAuthorAreRequired() throws Exception {
         // when
         newBookPage.clickAddBookButton();
         // then
-        assertTrue(newBookPage.isFlashDisplayed());
+        assertTrue(newBookPage.isTitleWarningDisplayed());
+        assertTrue(newBookPage.isAuthorsWarningDisplayed());
     }
 }

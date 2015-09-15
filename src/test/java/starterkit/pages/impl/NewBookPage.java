@@ -3,10 +3,7 @@ package starterkit.pages.impl;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import starterkit.pages.AbstractPageObject;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by MATSUS on 15.09.2015.
@@ -31,8 +28,11 @@ public class NewBookPage extends AbstractPageObject {
     @FindBy(xpath = "/html/body/div[4]/div/div/div/form/div[3]/button[1]")
     private WebElement addBookButton;
 
-    @FindBy(xpath = "//button [@id='modalAddBook']")
-    private WebElement flash;
+    @FindBy(xpath = "//div[contains(@class, 'alert-warning') and contains(text(),'Book title is required.')]")
+    private WebElement flashTitleRequired;
+
+    @FindBy(xpath = "//div[contains(@class, 'alert-warning') and contains(text(),' Book required at least one author.')]")
+    private WebElement flashAuthorRequired;
 
     public NewBookPage(WebDriver driver) {
         super(driver);
@@ -62,16 +62,12 @@ public class NewBookPage extends AbstractPageObject {
         return this;
     }
 
-    public boolean isFlashDisplayed() {
-        driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
-        return flash.isDisplayed();
+    public boolean isTitleWarningDisplayed() {
+        return flashTitleRequired.isDisplayed();
     }
 
 
-
-
-
-
-
-
+    public boolean isAuthorsWarningDisplayed() {
+        return flashAuthorRequired.isDisplayed();
+    }
 }
