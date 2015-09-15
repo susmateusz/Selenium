@@ -34,7 +34,7 @@ public class BookListPage extends AbstractPageObject {
     @FindBy(xpath = "//button [text()='Delete']")
     private List<WebElement> deleteButtons;
 
-    @FindBy(className = "alert")
+    @FindBy(xpath = "//div[contains(@role,'alert')]")
     private WebElement flash;
 
 
@@ -73,8 +73,9 @@ public class BookListPage extends AbstractPageObject {
         return PageFactory.initElements(driver, BookListPage.class);
     }
 
-    public boolean isFlashDisplayed() {
-        return flash.isDisplayed();
+    public boolean isFlashDisplayed(String message) {
+        String xpath = "//span[contains(@class,'ng-scope') and contains(text(),'" + message + "')]";
+        return flash.findElement(By.xpath(xpath)).isDisplayed();
     }
 
     public int countBooks() {
