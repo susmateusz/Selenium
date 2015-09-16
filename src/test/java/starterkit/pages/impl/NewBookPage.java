@@ -3,6 +3,7 @@ package starterkit.pages.impl;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import starterkit.pages.AbstractPageObject;
 
 /**
@@ -57,9 +58,9 @@ public class NewBookPage extends AbstractPageObject {
         return this;
     }
 
-    public NewBookPage clickAddBookButton() {
+    public BookListPage clickAddBookButton() {
         addBookButton.click();
-        return this;
+        return PageFactory.initElements(driver,BookListPage.class);
     }
 
     public boolean isTitleWarningDisplayed() {

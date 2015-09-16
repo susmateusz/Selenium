@@ -25,15 +25,15 @@ public class NewBookModalPageTest extends AbstractSelenium {
 
     @Test
     public void testAddBookCorrectly() throws Exception {
+        String title = "title";
         // when
-        newBookPage.setBookTitle("title")
+        newBookPage.setBookTitle(title)
                 .setFirstName("firstName")
                 .setLastName("lastName")
                 .clickAddAuthorButton()
                 .clickAddBookButton();
         // then
-        assertFalse(newBookPage.isTitleWarningDisplayed());
-        assertFalse(newBookPage.isAuthorsWarningDisplayed());
+        assertFalse(newBookPage.hasError());
     }
 
     @Test
