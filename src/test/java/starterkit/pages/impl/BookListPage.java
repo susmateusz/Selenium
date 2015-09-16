@@ -19,19 +19,19 @@ public class BookListPage extends AbstractPageObject {
     @FindBy(xpath = "//input")
     private WebElement bookTitle;
 
-    @FindBy(xpath = "//button [text()='Szukaj']")
+    @FindBy(xpath = "//button [contains(text(),'Szukaj')]")
     private WebElement searchButton;
 
     @FindBy(xpath = "//button [@ng-click='addBook()']")
     private WebElement addBookButton;
 
     @FindBy(xpath = "//section/table")
-    private WebElement bookList;
+    private WebElement bookTable;
 
-    @FindBy(xpath = "//button [text()='Edit']")
+    @FindBy(xpath = "//button [contains(text(),'Edit')]")
     private List<WebElement> editButtons;
 
-    @FindBy(xpath = "//button [text()='Delete']")
+    @FindBy(xpath = "//button [contains(text(),'Delete')]")
     private List<WebElement> deleteButtons;
 
     @FindBy(xpath = "//div[contains(@role,'alert')]")
@@ -49,7 +49,7 @@ public class BookListPage extends AbstractPageObject {
 
     public BookListPage clickSearchButton() {
         searchButton.click();
-        return PageFactory.initElements(driver, BookListPage.class);
+        return this;
     }
 
     public NewBookPage clickAddBookButton() {
@@ -58,7 +58,7 @@ public class BookListPage extends AbstractPageObject {
     }
 
     public List<WebElement> getRows() {
-        return bookList.findElements(By.tagName("tr"));
+        return bookTable.findElements(By.tagName("tr"));
     }
 
     public NewBookPage clickEditButton(int index) {
@@ -70,7 +70,7 @@ public class BookListPage extends AbstractPageObject {
     public BookListPage clickDeleteButton(int index) {
         if (index < deleteButtons.size())
             deleteButtons.get(index).click();
-        return PageFactory.initElements(driver, BookListPage.class);
+        return this;
     }
 
     public boolean isFlashDisplayed(String message) {
@@ -80,7 +80,7 @@ public class BookListPage extends AbstractPageObject {
 
     public int countBooks() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(bookList));
+        wait.until(ExpectedConditions.visibilityOf(bookTable));
         return driver.findElements(By.xpath("//table/tbody/tr")).size() - 1;
     }
 }

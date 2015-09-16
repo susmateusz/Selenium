@@ -1,12 +1,17 @@
 package starterkit.tests;
 
+import org.apache.commons.logging.Log;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import starterkit.pages.AbstractSelenium;
 import starterkit.pages.impl.BookListPage;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -37,7 +42,7 @@ public class BookListPageTest extends AbstractSelenium {
     }
 
     @Test
-    public void testCheckIfBookIsRemoved() throws Exception {
+    public void testCheckIfBookIsRemoved() {
         // when
         bookListPage.clickSearchButton();
         int allBooksCount = bookListPage.countBooks();
@@ -50,7 +55,7 @@ public class BookListPageTest extends AbstractSelenium {
     }
 
     @Test
-    public void testCheckIfFiltersWorksWithEmptyPrefix() throws Exception {
+    public void testCheckIfFiltersWorksWithEmptyPrefix() {
         // given
         String emptyPrefix = " ";
         // when
@@ -59,24 +64,25 @@ public class BookListPageTest extends AbstractSelenium {
 
         bookListPage.setTitlePrefix(emptyPrefix);
         int filteredBooksCount = bookListPage.countBooks();
-
         // then
         assertTrue(allBooksCount > 0);
         assertEquals(filteredBooksCount, allBooksCount);
     }
 
     @Test
-    public void testCheckIfFiltersWorksWithPrefix() throws Exception {
+    public void testCheckIfFiltersWorksWithPrefix() {
         // when
+        String xpathExpression = "//td[contains(text(),'" + exampleTitle + "')]";
+        Predicate<WebElement> ifContainsTitle = e-> e.findElement(By.xpath(xpathExpression)).isDisplayed();
         bookListPage.clickSearchButton();
         bookListPage.setTitlePrefix(exampleTitle);
-        int filteredBooksCount = bookListPage.countBooks();
+        List<WebElement> results = bookListPage.getRows();
         // then
-        assertEquals(1, filteredBooksCount);
+        assertTrue(results.stream().allMatch(ifContainsTitle));
     }
 
     @Test
-    public void testIfEditBookWorks() throws Exception {
+    public void testIfEditBookWorks() {
         // given
         String newTitle = "yyyy";
         // when
@@ -90,8 +96,16 @@ public class BookListPageTest extends AbstractSelenium {
     }
 
     @Test
-    public  void testAddBook() {
-        assertTrue(bookListPage.isFlashDisplayed("Book \""+exampleTitle+"\" was added!"));
+    public  void testAddBookInSetUp() {
+        // given
+        String message = "was added!";
+        String xpathExpression = "//td[contains(text(),'" + exampleTitle + "')]";
+        Predicate<WebElement> ifContainsTitle = e -> e.findElement(By.xpath(xpathExpression)).isDisplayed();
+        // when
+        boolean isFlashDisplayed = bookListPage.isFlashDisplayed(message);
+        // then
+        assertTrue(bookListPage.getRows().stream().anyMatch(ifContainsTitle));
+        assertTrue(isFlashDisplayed);
     }
 
     private void addExampleBook(String title) {
@@ -108,7 +122,7 @@ public class BookListPageTest extends AbstractSelenium {
         try {
             bookListPage.clickDeleteButton(bookListPage.countBooks() - 1);
         } catch (NullPointerException e) {
-            System.err.println("Hue hue hue");
+            System.err.println("Not found example book, maybe Test tests if the book can be removed?");
         }
     }
 }

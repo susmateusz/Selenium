@@ -21,7 +21,6 @@ public class HomePage extends AbstractPageObject {
     private WebElement DialogBButton;
 
 
-
     public HomePage(WebDriver driver) {
         super(driver);
         this.driver.get("http://localhost:9721/workshop/");
@@ -29,7 +28,12 @@ public class HomePage extends AbstractPageObject {
 
     public BookListPage clickBookList() {
         bookListButton.click();
-        return PageFactory.initElements(driver,BookListPage.class);
+        return PageFactory.initElements(driver, BookListPage.class);
+    }
+
+    public AuthorListPage clickAuthorList() {
+        authorListButton.click();
+        return PageFactory.initElements(driver, AuthorListPage.class);
     }
 
     public WebElement getBookListButton() {
@@ -47,5 +51,6 @@ public class HomePage extends AbstractPageObject {
     public WebElement getDialogBButton() {
         return DialogBButton;
     }
+
 
 }
