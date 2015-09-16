@@ -16,9 +16,9 @@ public class HomePage extends AbstractPageObject {
     @FindBy(linkText = "Author List")
     private WebElement authorListButton;
     @FindBy(linkText = "Dialog A")
-    private WebElement DialogAButton;
+    private WebElement dialogAButton;
     @FindBy(linkText = "Dialog B")
-    private WebElement DialogBButton;
+    private WebElement dialogBButton;
 
 
     public HomePage(WebDriver driver) {
@@ -36,6 +36,11 @@ public class HomePage extends AbstractPageObject {
         return PageFactory.initElements(driver, AuthorListPage.class);
     }
 
+    public DialogAPage clickADialog() {
+        dialogAButton.click();
+        return PageFactory.initElements(driver,DialogAPage.class);
+    }
+
     public WebElement getBookListButton() {
         return bookListButton;
     }
@@ -45,12 +50,11 @@ public class HomePage extends AbstractPageObject {
     }
 
     public WebElement getDialogAButton() {
-        return DialogAButton;
+        return dialogAButton;
     }
 
     public WebElement getDialogBButton() {
-        return DialogBButton;
+        return dialogBButton;
     }
-
 
 }
